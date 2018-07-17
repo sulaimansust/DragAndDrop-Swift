@@ -12,8 +12,9 @@
 		4D27C18F20FDA948001F1343 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D27C18D20FDA948001F1343 /* Main.storyboard */; };
 		4D27C19120FDA94C001F1343 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D27C19020FDA94C001F1343 /* Assets.xcassets */; };
 		4D27C19420FDA94C001F1343 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D27C19220FDA94C001F1343 /* LaunchScreen.storyboard */; };
-		4D27C19C20FDB023001F1343 /* Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D27C19B20FDB023001F1343 /* Cell.xib */; };
+		4D27C19C20FDB023001F1343 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D27C19B20FDB023001F1343 /* TableViewCell.xib */; };
 		4D27C19F20FDB5AD001F1343 /* DummyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D27C19E20FDB5AD001F1343 /* DummyView.xib */; };
+		4D27C1A120FDF6FD001F1343 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D27C1A020FDF6FD001F1343 /* TableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,8 +25,9 @@
 		4D27C19020FDA94C001F1343 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4D27C19320FDA94C001F1343 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4D27C19520FDA94C001F1343 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4D27C19B20FDB023001F1343 /* Cell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Cell.xib; sourceTree = "<group>"; };
+		4D27C19B20FDB023001F1343 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		4D27C19E20FDB5AD001F1343 /* DummyView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DummyView.xib; sourceTree = "<group>"; };
+		4D27C1A020FDF6FD001F1343 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				4D27C18B20FDA948001F1343 /* ViewController.swift */,
 				4D27C19020FDA94C001F1343 /* Assets.xcassets */,
 				4D27C19520FDA94C001F1343 /* Info.plist */,
+				4D27C1A020FDF6FD001F1343 /* TableViewCell.swift */,
 			);
 			path = RnDProjectSortImage;
 			sourceTree = "<group>";
@@ -72,7 +75,7 @@
 			children = (
 				4D27C18D20FDA948001F1343 /* Main.storyboard */,
 				4D27C19220FDA94C001F1343 /* LaunchScreen.storyboard */,
-				4D27C19B20FDB023001F1343 /* Cell.xib */,
+				4D27C19B20FDB023001F1343 /* TableViewCell.xib */,
 				4D27C19E20FDB5AD001F1343 /* DummyView.xib */,
 			);
 			path = Views;
@@ -137,7 +140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D27C19420FDA94C001F1343 /* LaunchScreen.storyboard in Resources */,
-				4D27C19C20FDB023001F1343 /* Cell.xib in Resources */,
+				4D27C19C20FDB023001F1343 /* TableViewCell.xib in Resources */,
 				4D27C19120FDA94C001F1343 /* Assets.xcassets in Resources */,
 				4D27C19F20FDB5AD001F1343 /* DummyView.xib in Resources */,
 				4D27C18F20FDA948001F1343 /* Main.storyboard in Resources */,
@@ -153,6 +156,7 @@
 			files = (
 				4D27C18C20FDA948001F1343 /* ViewController.swift in Sources */,
 				4D27C18A20FDA948001F1343 /* AppDelegate.swift in Sources */,
+				4D27C1A120FDF6FD001F1343 /* TableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

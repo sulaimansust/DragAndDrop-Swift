@@ -12,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="126" id="BT1-Tn-Qai">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="125" id="BT1-Tn-Qai" customClass="TableViewCell" customModule="RnDProjectSortImage" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="126"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BT1-Tn-Qai" id="46d-L6-r7Y">
@@ -56,6 +56,12 @@
                     <constraint firstAttribute="bottom" secondItem="wDa-1H-cCz" secondAttribute="bottom" constant="3" id="wfg-A2-OhK"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="contentImageView" destination="MGS-Ye-82s" id="FhP-or-UUg"/>
+                <outlet property="dividerPlaceHolder" destination="wDa-1H-cCz" id="1Zg-iE-EJi"/>
+                <outlet property="imageContainerView" destination="E4M-Rc-1kx" id="Arj-TH-TUK"/>
+                <outlet property="lyricsText" destination="oKa-uD-lhK" id="Dju-mO-Wza"/>
+            </connections>
             <point key="canvasLocation" x="-4.5" y="-21"/>
         </tableViewCell>
     </objects>
