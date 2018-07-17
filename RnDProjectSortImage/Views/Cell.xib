@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="126" id="BT1-Tn-Qai">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="126"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BT1-Tn-Qai" id="46d-L6-r7Y">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="125.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium ]" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oKa-uD-lhK">
+                        <rect key="frame" x="3" y="3" width="150" height="119.5"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wDa-1H-cCz">
+                        <rect key="frame" x="153" y="3" width="75" height="119.5"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E4M-Rc-1kx">
+                        <rect key="frame" x="225" y="3" width="150" height="120"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="image1" translatesAutoresizingMaskIntoConstraints="NO" id="MGS-Ye-82s">
+                                <rect key="frame" x="28" y="13" width="95" height="95"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="wDa-1H-cCz" firstAttribute="leading" secondItem="oKa-uD-lhK" secondAttribute="trailing" id="KlT-JG-y2s"/>
+                    <constraint firstItem="wDa-1H-cCz" firstAttribute="height" secondItem="oKa-uD-lhK" secondAttribute="height" id="NpQ-I6-Zgy"/>
+                    <constraint firstAttribute="trailing" secondItem="E4M-Rc-1kx" secondAttribute="trailing" id="WCr-ua-hHV"/>
+                    <constraint firstItem="E4M-Rc-1kx" firstAttribute="width" secondItem="oKa-uD-lhK" secondAttribute="width" id="Y5h-Em-nxc"/>
+                    <constraint firstAttribute="bottom" secondItem="E4M-Rc-1kx" secondAttribute="bottom" constant="3" id="YeV-wz-vBi"/>
+                    <constraint firstItem="oKa-uD-lhK" firstAttribute="width" secondItem="46d-L6-r7Y" secondAttribute="width" multiplier="0.4" id="Zav-Hl-pGI"/>
+                    <constraint firstItem="oKa-uD-lhK" firstAttribute="leading" secondItem="46d-L6-r7Y" secondAttribute="leading" constant="3" id="fmq-I8-MrX"/>
+                    <constraint firstItem="wDa-1H-cCz" firstAttribute="width" secondItem="oKa-uD-lhK" secondAttribute="width" multiplier="0.5" id="hKZ-qc-nGL"/>
+                    <constraint firstItem="oKa-uD-lhK" firstAttribute="top" secondItem="46d-L6-r7Y" secondAttribute="top" constant="3" id="jaM-di-kGf"/>
+                    <constraint firstItem="E4M-Rc-1kx" firstAttribute="top" secondItem="46d-L6-r7Y" secondAttribute="top" constant="3" id="kgd-BN-ACh"/>
+                    <constraint firstAttribute="bottom" secondItem="oKa-uD-lhK" secondAttribute="bottom" constant="3" id="pqX-ek-eGV"/>
+                    <constraint firstItem="wDa-1H-cCz" firstAttribute="top" secondItem="46d-L6-r7Y" secondAttribute="top" constant="3" id="sl1-UM-4Qz"/>
+                    <constraint firstAttribute="bottom" secondItem="wDa-1H-cCz" secondAttribute="bottom" constant="3" id="wfg-A2-OhK"/>
+                </constraints>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="-4.5" y="-21"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="image1" width="220" height="233"/>
+    </resources>
+</document>
