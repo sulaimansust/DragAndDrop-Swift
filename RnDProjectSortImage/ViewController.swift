@@ -74,12 +74,12 @@ class ViewController: UIViewController {
                 let tableViewCell = tableView.cellForRow(at: path) as! TableViewCell
 //                draggableCell.cellSnapshot = copy
                 
-                let copyCell = self.tableView.dequeueReusableCell(withIdentifier: ViewControllerConstants.kCellIdentifier) as! TableViewCell
-                copyCell.contentImageView.image = tableViewCell.contentImageView.image
-                copyCell.dividerPlaceHolder.isHidden = true
-                copyCell.lyricsText.isHidden = true
+//                let copyCell = self.tableView.dequeueReusableCell(withIdentifier: ViewControllerConstants.kCellIdentifier) as! TableViewCell
+//                copyCell.contentImageView.image = tableViewCell.contentImageView.image
+//                copyCell.dividerPlaceHolder.isHidden = true
+//                copyCell.lyricsText.isHidden = true
                 
-                draggableCell.cellSnapshot = copyCellSnapshot(inputView: copyCell)
+                draggableCell.cellSnapshot = copyCellSnapshot(inputView: tableViewCell)
                 var center = tableViewCell.center
                 draggableCell.cellSnapshot?.center = center
                 draggableCell.cellSnapshot?.alpha = 0.0
@@ -131,7 +131,7 @@ class ViewController: UIViewController {
                 if let initialPath = DraggableCellPath.initialIndexPath {
                     cellImageNames.insert(cellImageNames.remove(at: initialPath.row), at: path.row)
                     
-//                    self.tableView.moveRow(at: initialPath, to: path)
+                    self.tableView.moveRow(at: initialPath, to: path)
                     DraggableCellPath.initialIndexPath = path
                 }
             }
