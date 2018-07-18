@@ -62,7 +62,7 @@ class ViewController: UIViewController {
         
         switch  state {
         case .began:
-            
+            print("state: began ")
             if let path = indexPath {
                 DraggableCellPath.initialIndexPath = path
                 
@@ -73,7 +73,14 @@ class ViewController: UIViewController {
                 draggableCell.cellSnapshot?.center = center
                 draggableCell.cellSnapshot?.alpha = 0.0
                 
+                
+                
                 if let view = draggableCell.cellSnapshot{
+                    
+                    for subView in view.subviews {
+                        print("subview is \(subView is UITextView)")
+                    }
+                    
                     tableView.addSubview(view)
                 }
                 
@@ -106,7 +113,8 @@ class ViewController: UIViewController {
             }
             
         case .changed:
-            
+            print("state: changed ")
+
             if let cell = self.draggableCell.cellSnapshot {
                 var center = cell.center
                 center.y = locationInView.y
@@ -123,6 +131,8 @@ class ViewController: UIViewController {
             }
             
         default:
+            print("state: default - \(state) ")
+
             if let initialIndexPath = DraggableCellPath.initialIndexPath {
                 let cell = tableView.cellForRow(at: initialIndexPath) as! TableViewCell
                 
@@ -172,6 +182,9 @@ class ViewController: UIViewController {
         cellSnapshot.layer.shadowOffset = CGSize.init(width: -5, height: 0)
         cellSnapshot.layer.shadowRadius = 5
         cellSnapshot.layer.shadowOpacity = 0.4
+        
+        
+        
         return cellSnapshot
         
     }
