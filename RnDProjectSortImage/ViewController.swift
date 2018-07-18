@@ -53,6 +53,11 @@ class ViewController: UIViewController {
     
     
     @objc fileprivate func onLongPress(gesture: UIGestureRecognizer) -> Void{
+        
+        if self.cellImageNames.count <= 1 {
+            return
+        }
+        
         let longPress = gesture as! UILongPressGestureRecognizer
         let state = longPress.state
         
@@ -66,21 +71,22 @@ class ViewController: UIViewController {
             if let path = indexPath {
                 DraggableCellPath.initialIndexPath = path
                 
-                let cell = tableView.cellForRow(at: path) as! TableViewCell
+                let tableViewCell = tableView.cellForRow(at: path) as! TableViewCell
 //                draggableCell.cellSnapshot = copy
-                draggableCell.cellSnapshot = copyCellSnapshot(inputView: cell)
-                var center = cell.center
+                
+                let copyCell = self.tableView.dequeueReusableCell(withIdentifier: ViewControllerConstants.kCellIdentifier) as! TableViewCell
+                copyCell.contentImageView.image = tableViewCell.contentImageView.image
+                copyCell.dividerPlaceHolder.isHidden = true
+                copyCell.lyricsText.isHidden = true
+                
+                draggableCell.cellSnapshot = copyCellSnapshot(inputView: copyCell)
+                var center = tableViewCell.center
                 draggableCell.cellSnapshot?.center = center
                 draggableCell.cellSnapshot?.alpha = 0.0
                 
                 
                 
                 if let view = draggableCell.cellSnapshot{
-                    
-                    for subView in view.subviews {
-                        print("subview is \(subView is UITextView)")
-                    }
-                    
                     tableView.addSubview(view)
                 }
                 
@@ -92,7 +98,7 @@ class ViewController: UIViewController {
                     self.draggableCell.cellSnapshot?.center = center
                     self.draggableCell.cellSnapshot?.transform = CGAffineTransform.init(scaleX: 1.05, y: 1.05)
                     self.draggableCell.cellSnapshot?.alpha = 0.98
-                    cell.alpha = 0.0
+//                    cell.alpha = 0.0
                     
                 }, completion : {
                     (finished) -> Void in
@@ -103,10 +109,10 @@ class ViewController: UIViewController {
                             self.draggableCell.cellNeedToShow = false
                             UIView.animate(withDuration: 0.25, animations: {
                                 () -> Void in
-                                    cell.alpha = 1.0
+                                    tableViewCell.alpha = 1.0
                                 })
                         } else {
-                            cell.isHidden = true
+                            tableViewCell.isHidden = true
                         }
                     }
                 })
@@ -125,7 +131,7 @@ class ViewController: UIViewController {
                 if let initialPath = DraggableCellPath.initialIndexPath {
                     cellImageNames.insert(cellImageNames.remove(at: initialPath.row), at: path.row)
                     
-                    self.tableView.moveRow(at: initialPath, to: path)
+//                    self.tableView.moveRow(at: initialPath, to: path)
                     DraggableCellPath.initialIndexPath = path
                 }
             }
