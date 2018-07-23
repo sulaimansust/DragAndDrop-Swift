@@ -32,7 +32,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E4M-Rc-1kx">
                         <rect key="frame" x="225" y="3" width="150" height="120"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="image1" translatesAutoresizingMaskIntoConstraints="NO" id="MGS-Ye-82s">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MGS-Ye-82s">
                                 <rect key="frame" x="28" y="13" width="95" height="95"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -65,7 +65,4 @@
             <point key="canvasLocation" x="-4.5" y="-21"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="image1" width="220" height="233"/>
-    </resources>
 </document>
