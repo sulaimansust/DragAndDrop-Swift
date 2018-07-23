@@ -7,7 +7,6 @@
 //
 
 import UIKit
-//import Tab
 
 struct ViewControllerConstants {
     static let kCellIdentifier = "TableViewCellID"
@@ -15,43 +14,39 @@ struct ViewControllerConstants {
 }
 
 struct DraggableCell{
-     var dummyCellView : UIView? = nil
-     var cellIsAnimating : Bool = false
-//     var cellNeedToShow : Bool = false
-}
-struct DraggableCellPath {
-    static var initialIndexPath : IndexPath? = nil
+    var dummyCellView : UIView? = nil
+    var initialIndexPath : IndexPath? = nil
 }
 
 class ViewController: UIViewController {
    
-    var cellImageItemsName : [String] = ["image1","image2","","image5","image6"]
-    var lyrics:[String] = ["Lyrics 1","Lyrics 2","Lyrics 3","Lyrics 4","Lyrics 5"]
+    var imageItemsName : [String] = ["image1","image2","","image5","image6"]
+    var lyricStrings:[String] = ["Lyrics 1","Lyrics 2","Lyrics 3","Lyrics 4","Lyrics 5"]
     
     @IBOutlet weak var tableView: UITableView!
     
     lazy var draggableCell:DraggableCell = DraggableCell.init()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        self.tableView.register(UINib.init(nibName: ViewControllerConstants.kNibName, bundle: Bundle.main), forCellReuseIdentifier: ViewControllerConstants.kCellIdentifier)
-        
-        let longPressGesture = UILongPressGestureRecognizer.init(target: self, action: #selector(onLongPress(gesture:)))
-        self.tableView.addGestureRecognizer(longPressGesture)
-        
+        self.setupViews()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func viewWillAppear(_ animated: Bool) {
         self.tableView.reloadData()
     }
     
+    private func setupViews() -> Void {
+        self.tableView.register(UINib.init(nibName: ViewControllerConstants.kNibName, bundle: Bundle.main), forCellReuseIdentifier: ViewControllerConstants.kCellIdentifier)
+        
+        let longPressGesture = UILongPressGestureRecognizer.init(target: self, action: #selector(onLongPress(gesture:)))
+        self.tableView.addGestureRecognizer(longPressGesture)
+    }
     
     @objc fileprivate func onLongPress(gesture: UIGestureRecognizer) -> Void{
         
@@ -61,23 +56,21 @@ class ViewController: UIViewController {
         let locationInView = longPress.location(in: self.tableView)
         let indexPath = tableView.indexPathForRow(at: locationInView)
         
-        
-        
         switch  state {
         case .began:
             print("state: began ")
             if let path = indexPath {
                 
-                if self.cellImageItemsName[path.row] == "" {
+                if self.imageItemsName[path.row] == "" {
                     return
                 }
                 
-                DraggableCellPath.initialIndexPath = path
+                draggableCell.initialIndexPath = path
                 
                 let tableViewCell = tableView.cellForRow(at: path) as! TableViewCell
                 
                 let copyCell = self.tableView.dequeueReusableCell(withIdentifier: ViewControllerConstants.kCellIdentifier) as! TableViewCell
-                copyCell.contentImageView.image = UIImage.init(named: self.cellImageItemsName[path.row])
+                copyCell.contentImageView.image = UIImage.init(named: self.imageItemsName[path.row])
                 copyCell.dividerPlaceHolder.isHidden = true
                 copyCell.lyricsText.isHidden = true
                 
@@ -94,25 +87,19 @@ class ViewController: UIViewController {
                 UIView.animate(withDuration: 0.25, animations: {
                     () -> Void in
                     center.y = locationInView.y
-
-                    self.draggableCell.cellIsAnimating = true
                     self.draggableCell.dummyCellView?.center = center
                     self.draggableCell.dummyCellView?.transform = CGAffineTransform.init(scaleX: 1.05, y: 1.05)
                     self.draggableCell.dummyCellView?.alpha = 0.98
-//                    cell.alpha = 0.0
                     
                 }, completion : {
                     (finished) -> Void in
                     if finished {
-                        self.draggableCell.cellIsAnimating = false
-                        tableViewCell.imageContainerView.isHidden = true
+                        tableViewCell.contentImageView.isHidden = true
                     }
                 })
             }
             
         case .changed:
-//            print("state: changed ")
-
             if let cell = self.draggableCell.dummyCellView {
                 var center = cell.center
                 center.y = locationInView.y
@@ -120,9 +107,9 @@ class ViewController: UIViewController {
             }
             
         default:
-            print("state: default - \(state) currentIndex: \(indexPath ?? IndexPath.init(row: 0, section: 0)) initialIndex: \(DraggableCellPath.initialIndexPath ?? IndexPath.init(row: 0, section: 0))")
+            print("state: default - \(state) currentIndex: \(indexPath ?? IndexPath.init(row: 0, section: 0)) initialIndex: \(draggableCell.initialIndexPath ?? IndexPath.init(row: 0, section: 0))")
 
-            if let initialIndexPath = DraggableCellPath.initialIndexPath {
+            if let initialIndexPath = draggableCell.initialIndexPath {
                 let cell = tableView.cellForRow(at: initialIndexPath) as! TableViewCell
                 cell.imageContainerView.isHidden = false
                 cell.alpha = 0.0
@@ -139,7 +126,7 @@ class ViewController: UIViewController {
                     (finished) -> Void in
 
                     if finished {
-                        DraggableCellPath.initialIndexPath = nil
+                        self.draggableCell.initialIndexPath = nil
                         self.draggableCell.dummyCellView?.removeFromSuperview()
                         self.draggableCell.dummyCellView = nil
                       
@@ -170,10 +157,7 @@ class ViewController: UIViewController {
         cellSnapshot.layer.shadowRadius = 5
         cellSnapshot.layer.shadowOpacity = 0.4
         
-        
-        
         return cellSnapshot
-        
     }
     fileprivate func reloadTableViewsWithAnimation() {
         print("reloadTableViewsWithAnimation ")
@@ -186,105 +170,67 @@ class ViewController: UIViewController {
         }
     }
     fileprivate func rearrangeData() {
-        
         print("rearrangeData called -> ")
-
-        
-//        if isUpward {
-//            var emptyCount = 1
-//            while(self.cellImageItemsName[0].count == 0) {
-//                let tempImage = self.cellImageItemsName[0]
-//                self.cellImageItemsName[0] = self.cellImageItemsName[1]
-//                for i in 2..<self.cellImageItemsName.count {
-//                    print("loop \(i)")
-//                    self.cellImageItemsName[i-1] = self.cellImageItemsName[i]
-//                }
-//                print(" rearrangeData ->> : \(self.cellImageItemsName) ")
-//                self.cellImageItemsName[self.cellImageItemsName.count - emptyCount] = tempImage
-//                emptyCount = emptyCount + 1
-//            }
-        
-        for i in 1 ..< self.cellImageItemsName.count {
-            if self.cellImageItemsName[i].count > 0 {
-                self.cellImageItemsName[0] = self.cellImageItemsName[i]
-                self.cellImageItemsName[i] = ""
+        for i in 1 ..< self.imageItemsName.count {
+            if self.imageItemsName[i].count > 0 {
+                self.imageItemsName[0] = self.imageItemsName[i]
+                self.imageItemsName[i] = ""
                 break
             }
-            
         }
-        
-        print("final values after rearrangeData ")
-        print(cellImageItemsName)
-
     }
     
     fileprivate func sortDataSourceWith(startIndex: Int, and destinationIndex: Int){
 
-        print("sortDataSourceWith -> source:  \(startIndex)  dest: \(destinationIndex)")
-        print("initial data ")
-        print(cellImageItemsName)
         //as dragged image is already placed correctly on position and start position image is changed with destionation
         
-        var destinationImageName = self.cellImageItemsName[destinationIndex]
+        var destinationImageName = self.imageItemsName[destinationIndex]
         
-        self.cellImageItemsName[destinationIndex] = self.cellImageItemsName[startIndex]
-        self.cellImageItemsName[startIndex] = ""
-        
+        self.imageItemsName[destinationIndex] = self.imageItemsName[startIndex]
+        self.imageItemsName[startIndex] = ""
         
         if startIndex < destinationIndex {
             //data move from top to bottom
             var loopIterator = destinationIndex-1
-            var tempString = cellImageItemsName[loopIterator]
+            var tempString = imageItemsName[loopIterator]
             
             while(loopIterator > startIndex) {
-                cellImageItemsName[loopIterator] = destinationImageName
-//                if tempString == "" {
-//                    break
-//                }
+                imageItemsName[loopIterator] = destinationImageName
                 loopIterator -= 1
                 destinationImageName = tempString
-                tempString = cellImageItemsName[loopIterator]
-                print(cellImageItemsName)
+                tempString = imageItemsName[loopIterator]
+                print(imageItemsName)
             }
-            cellImageItemsName[loopIterator] = destinationImageName
-            print("final values after changing data top to bottom")
-            print(cellImageItemsName)
+            imageItemsName[loopIterator] = destinationImageName
             
         } else {
             //data move from bottom to top
             var loopIterator = destinationIndex + 1
-            var tempString = cellImageItemsName[loopIterator]
+            var tempString = imageItemsName[loopIterator]
 
             while(loopIterator < startIndex) {
-                cellImageItemsName[loopIterator] = destinationImageName
-//                if tempString == "" {
-//                    break
-//                }
+                imageItemsName[loopIterator] = destinationImageName
+
                 loopIterator += 1
                 destinationImageName = tempString
-                tempString = cellImageItemsName[loopIterator]
-                print(cellImageItemsName)
+                tempString = imageItemsName[loopIterator]
+                print(imageItemsName)
             }
-            cellImageItemsName[loopIterator] = destinationImageName
-            print("final values after changing data bottom to top")
-            print(cellImageItemsName)
+            imageItemsName[loopIterator] = destinationImageName
+
         }
-        
-        if  self.cellImageItemsName[0].count == 0 {
+        if  self.imageItemsName[0].count == 0 {
             self.rearrangeData()
         }
         
         self.reloadTableViewsWithAnimation()
-
     }
-    
-    
 
 }
 
 extension ViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return lyrics.count
+        return lyricStrings.count
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -293,18 +239,24 @@ extension ViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ViewControllerConstants.kCellIdentifier, for: indexPath) as? TableViewCell
-//        if cellImageItemsName[indexPath.row].count > 0 {
-        cell?.contentImageView.image = UIImage.init(named: cellImageItemsName[indexPath.row])
-//        } else {
-//            cell?.imageContainerView.isHidden = true
-//        }
-        cell?.lyricsText.text = self.lyrics[indexPath.row]
+   
+        if self.imageItemsName[indexPath.row].count > 0{
+            cell?.contentImageView.image = UIImage.init(named: imageItemsName[indexPath.row])
+        } else {
+            cell?.contentImageView.image = nil
+        }
+        
+        cell?.lyricsText.text = self.lyricStrings[indexPath.row]
+        
+//        cell?.lyricsText
+        
+        
+        cell?.contentImageView.isHidden = false
         
         if cell != nil {
             return cell!
         }
         return UITableViewCell.init()
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
