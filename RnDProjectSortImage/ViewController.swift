@@ -238,9 +238,9 @@ class ViewController: UIViewController {
             
             while(loopIterator > startIndex) {
                 cellImageItemsName[loopIterator] = destinationImageName
-                if tempString == "" {
-                    break
-                }
+//                if tempString == "" {
+//                    break
+//                }
                 loopIterator -= 1
                 destinationImageName = tempString
                 tempString = cellImageItemsName[loopIterator]
