@@ -11,8 +11,8 @@ import UIKit
 
 class TableViewCell: UITableViewCell {
     
-    @IBOutlet weak var lyricsText: UITextView!
-    @IBOutlet weak var dividerPlaceHolder: UIView!
+    @IBOutlet weak var lyricsTextView: UITextView!
+    @IBOutlet weak var dividerPlaceHolderView: UIView!
     
     @IBOutlet weak var imageContainerView: UIView!
     

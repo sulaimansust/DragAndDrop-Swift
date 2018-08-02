@@ -19,7 +19,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="125.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium ]" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oKa-uD-lhK">
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium ]" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oKa-uD-lhK">
                         <rect key="frame" x="3" y="3" width="150" height="119.5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -58,9 +58,9 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="contentImageView" destination="MGS-Ye-82s" id="FhP-or-UUg"/>
-                <outlet property="dividerPlaceHolder" destination="wDa-1H-cCz" id="1Zg-iE-EJi"/>
+                <outlet property="dividerPlaceHolderView" destination="wDa-1H-cCz" id="1Zg-iE-EJi"/>
                 <outlet property="imageContainerView" destination="E4M-Rc-1kx" id="Arj-TH-TUK"/>
-                <outlet property="lyricsText" destination="oKa-uD-lhK" id="Dju-mO-Wza"/>
+                <outlet property="lyricsTextView" destination="oKa-uD-lhK" id="Dju-mO-Wza"/>
             </connections>
             <point key="canvasLocation" x="-4.5" y="-21"/>
         </tableViewCell>

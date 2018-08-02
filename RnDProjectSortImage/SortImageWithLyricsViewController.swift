@@ -9,6 +9,7 @@
 import UIKit
 
 struct ViewControllerConstants {
+    static let kViewControllerIdentifier = "SortImageViewController"
     static let kCellIdentifier = "TableViewCellID"
     static let kNibName = "TableViewCell"
 }
@@ -18,10 +19,11 @@ struct DraggableCell{
     var initialIndexPath : IndexPath? = nil
 }
 
-class ViewController: UIViewController {
+class SortImageWithLyricsViewController: UIViewController {
    
-    var imageItemsName : [String] = ["one","two","","four","five"]
-    var lyricStrings:[String] = ["Lyrics 1","Lyrics 2","Lyrics 3","Lyrics 4","Lyrics 5"]
+    fileprivate var imageItemsName : [String] = ["one","two","","four","five"]
+    fileprivate var lyricStrings:[String] = ["This is a , five line text This is a , five line text This is a , five line text This is a , five line textThis is a , five line text This is a , five line text This is a , five line text This is a , five line text This is a , five line text This is a , five line text This is a , five line text This is a , five line text This is a , five line text"
+    ,"Lyrics 2","Lyrics 3","Lyrics 4","Lyrics 5"]
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -31,6 +33,21 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupViews()
+    }
+    
+    class func initFromStoryboard(with lyrics:[String]? , and imageNames:[String]?) -> SortImageWithLyricsViewController {
+        let viewController = UIStoryboard.mainStoryBoard().instantiateViewController(withIdentifier: ViewControllerConstants.kViewControllerIdentifier) as! SortImageWithLyricsViewController
+        
+        if let lyricItems = lyrics {
+            viewController.lyricStrings.removeAll()
+            viewController.lyricStrings.append(contentsOf: lyricItems)
+        }
+        if let imageItemNames = imageNames {
+            viewController.imageItemsName.removeAll()
+            viewController.imageItemsName.append(contentsOf: imageItemNames)
+        }
+        
+        return viewController
     }
 
     override func didReceiveMemoryWarning() {
@@ -71,8 +88,8 @@ class ViewController: UIViewController {
                 
                 let copyCell = self.tableView.dequeueReusableCell(withIdentifier: ViewControllerConstants.kCellIdentifier) as! TableViewCell
                 copyCell.contentImageView.image = UIImage.init(named: self.imageItemsName[path.row])
-                copyCell.dividerPlaceHolder.isHidden = true
-                copyCell.lyricsText.isHidden = true
+                copyCell.dividerPlaceHolderView.isHidden = true
+                copyCell.lyricsTextView.isHidden = true
                 
                 draggableCell.dummyCellView = copyCellImageToDummyView(inputView: copyCell)
                 var center = tableViewCell.center
@@ -143,7 +160,7 @@ class ViewController: UIViewController {
         
     }
     
-    fileprivate func copyCellImageToDummyView(inputView: UIView ) -> UIView {
+    private func copyCellImageToDummyView(inputView: UIView ) -> UIView {
         
         UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0.0)
         inputView.layer.render(in: UIGraphicsGetCurrentContext()!)
@@ -160,7 +177,7 @@ class ViewController: UIViewController {
         
         return cellSnapshot
     }
-    fileprivate func reloadTableViewsWithAnimation() {
+    private func reloadTableViewsWithAnimation() {
         print("reloadTableViewsWithAnimation ")
         DispatchQueue.main.async {
             UIView.animate(withDuration: 0.25, animations: {
@@ -170,7 +187,7 @@ class ViewController: UIViewController {
             )
         }
     }
-    fileprivate func rearrangeData() {
+    private func rearrangeData() {
         print("rearrangeData called -> ")
         for i in 1 ..< self.imageItemsName.count {
             if self.imageItemsName[i].count > 0 {
@@ -229,7 +246,7 @@ class ViewController: UIViewController {
 
 }
 
-extension ViewController : UITableViewDataSource {
+extension SortImageWithLyricsViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return lyricStrings.count
     }
@@ -247,10 +264,8 @@ extension ViewController : UITableViewDataSource {
             cell?.contentImageView.image = nil
         }
         
-        cell?.lyricsText.text = self.lyricStrings[indexPath.row]
-        
-//        cell?.lyricsText
-        
+        cell?.lyricsTextView.text = self.lyricStrings[indexPath.row]
+        cell?.lyricsTextView.textContainer.maximumNumberOfLines = 4
         
         cell?.contentImageView.isHidden = false
         
@@ -272,7 +287,7 @@ extension ViewController : UITableViewDataSource {
     
 }
 
-extension ViewController : UITableViewDelegate {
+extension SortImageWithLyricsViewController : UITableViewDelegate {
     
 }
 
