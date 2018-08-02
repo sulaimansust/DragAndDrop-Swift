@@ -20,7 +20,7 @@ struct DraggableCell{
 
 class ViewController: UIViewController {
    
-    var imageItemsName : [String] = ["image1","image2","","image5","image6"]
+    var imageItemsName : [String] = ["one","two","","four","five"]
     var lyricStrings:[String] = ["Lyrics 1","Lyrics 2","Lyrics 3","Lyrics 4","Lyrics 5"]
     
     @IBOutlet weak var tableView: UITableView!
@@ -54,12 +54,12 @@ class ViewController: UIViewController {
         let state = longPress.state
         
         let locationInView = longPress.location(in: self.tableView)
-        let indexPath = tableView.indexPathForRow(at: locationInView)
+        let currentIndexPath = tableView.indexPathForRow(at: locationInView)
         
         switch  state {
         case .began:
             print("state: began ")
-            if let path = indexPath {
+            if let path = currentIndexPath {
                 
                 if self.imageItemsName[path.row] == "" {
                     return
@@ -107,7 +107,7 @@ class ViewController: UIViewController {
             }
             
         default:
-            print("state: default - \(state) currentIndex: \(indexPath ?? IndexPath.init(row: 0, section: 0)) initialIndex: \(draggableCell.initialIndexPath ?? IndexPath.init(row: 0, section: 0))")
+            print("state: default - \(state) currentIndex: \(currentIndexPath ?? IndexPath.init(row: 0, section: 0)) initialIndex: \(draggableCell.initialIndexPath ?? IndexPath.init(row: 0, section: 0))")
 
             if let initialIndexPath = draggableCell.initialIndexPath {
                 let cell = tableView.cellForRow(at: initialIndexPath) as! TableViewCell
@@ -126,11 +126,12 @@ class ViewController: UIViewController {
                     (finished) -> Void in
 
                     if finished {
+                        cell.contentImageView.isHidden = false
                         self.draggableCell.initialIndexPath = nil
                         self.draggableCell.dummyCellView?.removeFromSuperview()
                         self.draggableCell.dummyCellView = nil
                       
-                        if let destinationPath = indexPath {
+                        if let destinationPath = currentIndexPath {
                             if initialIndexPath != destinationPath{
                                 self.sortDataSourceWith(startIndex: initialIndexPath.row, and: destinationPath.row)
                             }
