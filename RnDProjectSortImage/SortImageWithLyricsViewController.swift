@@ -21,7 +21,7 @@ struct DraggableCell{
 
 class SortImageWithLyricsViewController: UIViewController {
    
-    fileprivate var imageItemsName : [String] = ["one","two","","four","five"]
+    fileprivate var imageItemsName : [String] = ["one","two","three","four","five"]
     fileprivate var lyricStrings:[String] = ["This is a , five line text This is a , five line text This is a , five line text This is a , five line textThis is a , five line text This is a , five line text This is a , five line text This is a , five line text This is a , five line text This is a , five line text This is a , five line text This is a , five line text This is a , five line text"
     ,"Lyrics 2","Lyrics 3","Lyrics 4","Lyrics 5"]
     
@@ -259,7 +259,14 @@ extension SortImageWithLyricsViewController : UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ViewControllerConstants.kCellIdentifier, for: indexPath) as? TableViewCell
    
         if self.imageItemsName[indexPath.row].count > 0{
-            cell?.contentImageView.image = UIImage.init(named: imageItemsName[indexPath.row])
+            let lyricsImage = UIImage.init(named: imageItemsName[indexPath.row])
+            
+            let colors = lyricsImage?.getColors()
+            
+            print("Colors -----------> \(colors?.detail)")
+            cell?.dividerPlaceHolderView.backgroundColor = colors?.primary
+            
+            cell?.contentImageView.image = lyricsImage
         } else {
             cell?.contentImageView.image = nil
         }

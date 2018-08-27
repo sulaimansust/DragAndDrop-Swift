@@ -15,6 +15,7 @@
 		4D27C19C20FDB023001F1343 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D27C19B20FDB023001F1343 /* TableViewCell.xib */; };
 		4D27C1A120FDF6FD001F1343 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D27C1A020FDF6FD001F1343 /* TableViewCell.swift */; };
 		4D71A8EF2112FA67009CDF77 /* Storyboard+ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D71A8EE2112FA67009CDF77 /* Storyboard+ViewController.swift */; };
+		4DEBA9912133F21F0030CCB0 /* UIImage+Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DEBA9902133F21F0030CCB0 /* UIImage+Colors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		4D27C19B20FDB023001F1343 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		4D27C1A020FDF6FD001F1343 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		4D71A8EE2112FA67009CDF77 /* Storyboard+ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storyboard+ViewController.swift"; sourceTree = "<group>"; };
+		4DEBA9902133F21F0030CCB0 /* UIImage+Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Colors.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				4D71A8EE2112FA67009CDF77 /* Storyboard+ViewController.swift */,
+				4DEBA9902133F21F0030CCB0 /* UIImage+Colors.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 				4D71A8EF2112FA67009CDF77 /* Storyboard+ViewController.swift in Sources */,
 				4D27C18A20FDA948001F1343 /* AppDelegate.swift in Sources */,
 				4D27C1A120FDF6FD001F1343 /* TableViewCell.swift in Sources */,
+				4DEBA9912133F21F0030CCB0 /* UIImage+Colors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
