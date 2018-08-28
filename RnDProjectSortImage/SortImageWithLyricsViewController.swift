@@ -21,7 +21,7 @@ struct DraggableCell{
 
 class SortImageWithLyricsViewController: UIViewController {
    
-    fileprivate var imageItemsName : [String] = ["one","two","three","four","five"]
+    fileprivate var imageItemsName : [String] = ["one","two","","four","five"]
     fileprivate var lyricStrings:[String] = ["ずっと見ないフリし てわからないフリがっ て背伸びて平気なフリしてた"
         ,"I'm goody-goody","わたしの頭をなでる大きな手も優しい眼差しも",
          "彼女のものだってわかってたわかってたよ、ずっとね","生ぬるい時間（トキ）が永遠と流れ"]
@@ -75,7 +75,7 @@ class SortImageWithLyricsViewController: UIViewController {
         
         let locationInView = longPress.location(in: self.tableView)
         let currentIndexPath = tableView.indexPathForRow(at: locationInView)
-        
+        print("current index --> \(currentIndexPath?.row ?? 100)")
         switch  state {
         case .began:
             print("state: began ")
@@ -130,7 +130,7 @@ class SortImageWithLyricsViewController: UIViewController {
             }
             
         default:
-            print("state: default - \(state) currentIndex: \(currentIndexPath ?? IndexPath.init(row: 0, section: 0)) initialIndex: \(draggableCell.initialIndexPath ?? IndexPath.init(row: 0, section: 0))")
+//            print("state: default - \(state) currentIndex: \(currentIndexPath ?? IndexPath.init(row: 0, section: 0)) initialIndex: \(draggableCell.initialIndexPath ?? IndexPath.init(row: 0, section: 0))")
 
             if let initialIndexPath = draggableCell.initialIndexPath {
                 let cell = tableView.cellForRow(at: initialIndexPath) as! TableViewCell
@@ -267,11 +267,12 @@ extension SortImageWithLyricsViewController : UITableViewDataSource {
         if self.imageItemsName[indexPath.row].count > 0{
             let lyricsImage = UIImage.init(named: imageItemsName[indexPath.row])
             let colors = lyricsImage?.getColors()
-            print("Colors -----------> \(colors?.detail)")
+//            print("Colors -----------> \(colors?.detail)")
             
             cell?.contentImageView.image = lyricsImage
         } else {
             cell?.contentImageView.image = nil
+            cell?.imageContainerView.isHidden = true
         }
         
         cell?.lyricsTextView.text = self.lyricStrings[indexPath.row]
