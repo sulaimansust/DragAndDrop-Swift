@@ -10,7 +10,7 @@ import UIKit
 
 struct ViewControllerConstants {
     static let kViewControllerIdentifier = "SortImageViewController"
-    static let kCellIdentifier = "TableViewCellID"
+    static let kCellIdentifier = "LyricsTableViewCell"
     static let kNibName = "TableViewCell"
 }
 
@@ -22,8 +22,9 @@ struct DraggableCell{
 class SortImageWithLyricsViewController: UIViewController {
    
     fileprivate var imageItemsName : [String] = ["one","two","three","four","five"]
-    fileprivate var lyricStrings:[String] = ["This is a , five line text This is a , five line text This is a , five line text This is a , five line textThis is a , five line text This is a , five line text This is a , five line text This is a , five line text This is a , five line text This is a , five line text This is a , five line text This is a , five line text This is a , five line text"
-    ,"Lyrics 2","Lyrics 3","Lyrics 4","Lyrics 5"]
+    fileprivate var lyricStrings:[String] = ["ずっと見ないフリし てわからないフリがっ て背伸びて平気なフリしてた"
+        ,"I'm goody-goody","わたしの頭をなでる大きな手も優しい眼差しも",
+         "彼女のものだってわかってたわかってたよ、ずっとね","生ぬるい時間（トキ）が永遠と流れ"]
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -61,6 +62,8 @@ class SortImageWithLyricsViewController: UIViewController {
     private func setupViews() -> Void {
         self.tableView.register(UINib.init(nibName: ViewControllerConstants.kNibName, bundle: Bundle.main), forCellReuseIdentifier: ViewControllerConstants.kCellIdentifier)
         
+        self.tableView.separatorStyle = .none
+        
         let longPressGesture = UILongPressGestureRecognizer.init(target: self, action: #selector(onLongPress(gesture:)))
         self.tableView.addGestureRecognizer(longPressGesture)
     }
@@ -86,10 +89,13 @@ class SortImageWithLyricsViewController: UIViewController {
                 
                 let tableViewCell = tableView.cellForRow(at: path) as! TableViewCell
                 
+                
                 let copyCell = self.tableView.dequeueReusableCell(withIdentifier: ViewControllerConstants.kCellIdentifier) as! TableViewCell
                 copyCell.contentImageView.image = UIImage.init(named: self.imageItemsName[path.row])
-                copyCell.dividerPlaceHolderView.isHidden = true
-                copyCell.lyricsTextView.isHidden = true
+                copyCell.dividerLine.isHidden = true
+                copyCell.dividerCircle.isHidden = true
+                copyCell.lyricsTextViewContainer.isHidden = true
+                
                 
                 draggableCell.dummyCellView = copyCellImageToDummyView(inputView: copyCell)
                 var center = tableViewCell.center
@@ -111,7 +117,7 @@ class SortImageWithLyricsViewController: UIViewController {
                 }, completion : {
                     (finished) -> Void in
                     if finished {
-                        tableViewCell.contentImageView.isHidden = true
+                        tableViewCell.imageContainerView.isHidden = true
                     }
                 })
             }
@@ -260,11 +266,8 @@ extension SortImageWithLyricsViewController : UITableViewDataSource {
    
         if self.imageItemsName[indexPath.row].count > 0{
             let lyricsImage = UIImage.init(named: imageItemsName[indexPath.row])
-            
             let colors = lyricsImage?.getColors()
-            
             print("Colors -----------> \(colors?.detail)")
-            cell?.dividerPlaceHolderView.backgroundColor = colors?.primary
             
             cell?.contentImageView.image = lyricsImage
         } else {
@@ -283,7 +286,7 @@ extension SortImageWithLyricsViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 125
+        return 100
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

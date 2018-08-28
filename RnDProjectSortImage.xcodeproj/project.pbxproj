@@ -66,9 +66,9 @@
 				4D27C19D20FDB3D5001F1343 /* Views */,
 				4D27C18920FDA948001F1343 /* AppDelegate.swift */,
 				4D27C18B20FDA948001F1343 /* SortImageWithLyricsViewController.swift */,
+				4D27C1A020FDF6FD001F1343 /* TableViewCell.swift */,
 				4D27C19020FDA94C001F1343 /* Assets.xcassets */,
 				4D27C19520FDA94C001F1343 /* Info.plist */,
-				4D27C1A020FDF6FD001F1343 /* TableViewCell.swift */,
 			);
 			path = RnDProjectSortImage;
 			sourceTree = "<group>";
