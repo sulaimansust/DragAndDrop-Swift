@@ -312,8 +312,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = C2Y54NGRZW;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = XYSCZDXKR7;
 				INFOPLIST_FILE = RnDProjectSortImage/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -322,6 +322,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.monstarlabbd.RnDProjectSortImage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "63631a6d-83bf-4fe3-bb98-7dcd2b434254";
+				PROVISIONING_PROFILE_SPECIFIER = Wildcard;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -331,8 +333,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = C2Y54NGRZW;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = XYSCZDXKR7;
 				INFOPLIST_FILE = RnDProjectSortImage/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -341,6 +343,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.monstarlabbd.RnDProjectSortImage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "63631a6d-83bf-4fe3-bb98-7dcd2b434254";
+				PROVISIONING_PROFILE_SPECIFIER = Wildcard;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -21,6 +21,9 @@ struct DraggableCell{
 
 class SortImageWithLyricsViewController: UIViewController {
    
+    
+    //MARK: Initial Variables Declarations + Class Functions
+    
     fileprivate var imageItemsName : [String] = ["nature1","nature2","nature4","",""]
     fileprivate var lyricStrings:[String] = ["ずっと見ないフリし てわからないフリがっ て背伸びて平気なフリしてた"
         ,"I'm goody-goody","わたしの頭をなでる大きな手も優しい眼差しも",
@@ -62,43 +65,10 @@ class SortImageWithLyricsViewController: UIViewController {
         }
         return images
     }()
+    lazy var draggableCell:DraggableCell = DraggableCell.init()
+
     
     @IBOutlet weak var tableView: UITableView!
-    
-    lazy var draggableCell:DraggableCell = DraggableCell.init()
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.setupViews()
-        self.createImagesWithPaletteColors()
-//        UIImage.ini
-    }
-    
-    
-    
-    private func createImagesWithPaletteColors() -> Void {
-        for i in 0 ..< self.imageItemsName.count {
-            if let image = UIImage.init(named: self.imageItemsName[i]) {
-                DispatchQueue.global().async {
-                    self.dividerCircleImages[i] =
-                        self.getImageFrom(image: self.dividerCircleImages[i], and: image.getColors().primary)
-                }
-                DispatchQueue.global().async {
-                    self.dividerLineImages[i] =
-                        self.getImageFrom(image: self.dividerLineImages[i], and: image.getColors().primary)
-                }
-                DispatchQueue.global().async {
-                    self.containerFrameImages[i] =
-                        self.getImageFrom(image: self.containerFrameImages[i], and: image.getColors().primary)
-                }
-                DispatchQueue.global().async {
-                    self.containerFrameWithShadowImages[i] =
-                        self.getImageFrom(image: self.containerFrameWithShadowImages[i], and: image.getColors().primary)
-                }
-            }
-        }
-    }
     
     class func initFromStoryboard(with lyrics:[String]? , and imageNames:[String]?) -> SortImageWithLyricsViewController {
         let viewController = UIStoryboard.mainStoryBoard().instantiateViewController(withIdentifier: ViewControllerConstants.kViewControllerIdentifier) as! SortImageWithLyricsViewController
@@ -115,13 +85,26 @@ class SortImageWithLyricsViewController: UIViewController {
         return viewController
     }
 
+    //MARK: ViewController's Methods
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.setupViews()
+        self.createImagesWithPaletteColors()
+//        UIImage.ini
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         self.tableView.reloadData()
     }
+    
+    
+    //MARK: Internnal methods for functionalities
     
     private func setupViews() -> Void {
         self.tableView.register(UINib.init(nibName: ViewControllerConstants.kNibName, bundle: Bundle.main), forCellReuseIdentifier: ViewControllerConstants.kCellIdentifier)
@@ -131,6 +114,33 @@ class SortImageWithLyricsViewController: UIViewController {
         let longPressGesture = UILongPressGestureRecognizer.init(target: self, action: #selector(onLongPress(gesture:)))
         self.tableView.addGestureRecognizer(longPressGesture)
     }
+    
+    
+    private func createImagesWithPaletteColors() -> Void {
+        for i in 0 ..< self.imageItemsName.count {
+            if let image = UIImage.init(named: self.imageItemsName[i]) {
+                DispatchQueue.global().async {
+                    self.dividerCircleImages[i] =
+                        self.createImageFrom(image: self.dividerCircleImages[i], and: image.getColors().primary)
+                }
+                DispatchQueue.global().async {
+                    self.dividerLineImages[i] =
+                        self.createImageFrom(image: self.dividerLineImages[i], and: image.getColors().primary)
+                }
+                DispatchQueue.global().async {
+                    self.containerFrameImages[i] =
+                        self.createImageFrom(image: self.containerFrameImages[i], and: image.getColors().primary)
+                }
+                DispatchQueue.global().async {
+                    self.containerFrameWithShadowImages[i] =
+                        self.createImageFrom(image: self.containerFrameWithShadowImages[i], and: image.getColors().primary)
+                }
+            }
+        }
+    }
+    
+
+
     
     @objc fileprivate func onLongPress(gesture: UIGestureRecognizer) -> Void{
         
@@ -142,17 +152,15 @@ class SortImageWithLyricsViewController: UIViewController {
 //        print("current index --> \(currentIndexPath?.row ?? 100)")
         switch  state {
         case .began:
-            print(" began - currentIndexPath == \(currentIndexPath?.row ?? 100)")
+//            print(" began - currentIndexPath == \(currentIndexPath?.row ?? 100)")
             if let path = currentIndexPath {
                 
                 if self.imageItemsName[path.row].count == 0  {
                     return
                 }
-                
                 draggableCell.initialIndexPath = path
                 
                 let tableViewCell = tableView.cellForRow(at: path) as! TableViewCell
-                
                 
                 let copyCell = self.tableView.dequeueReusableCell(withIdentifier: ViewControllerConstants.kCellIdentifier) as! TableViewCell
                 copyCell.contentImageView.image = UIImage.init(named: self.imageItemsName[path.row])
@@ -161,12 +169,10 @@ class SortImageWithLyricsViewController: UIViewController {
                 copyCell.dividerCircle.isHidden = true
                 copyCell.lyricsTextViewContainer.isHidden = true
                 
-                
                 draggableCell.dummyCellView = copyCellImageToDummyView(inputView: copyCell)
                 var center = tableViewCell.center
                 draggableCell.dummyCellView?.center = center
                 draggableCell.dummyCellView?.alpha = 0.0
-                
                 
                 if let view = draggableCell.dummyCellView{
                     tableView.addSubview(view)
@@ -197,7 +203,7 @@ class SortImageWithLyricsViewController: UIViewController {
             }
             
         default:
-            print("default - currentIndex: \(currentIndexPath?.row ?? 100) initialIndex: \(draggableCell.initialIndexPath?.row ?? 100)")
+//            print("default - currentIndex: \(currentIndexPath?.row ?? 100) initialIndex: \(draggableCell.initialIndexPath?.row ?? 100)")
 
             if let initialIndexPath = draggableCell.initialIndexPath {
                 let cell = tableView.cellForRow(at: initialIndexPath) as! TableViewCell
@@ -211,7 +217,7 @@ class SortImageWithLyricsViewController: UIViewController {
                     self.draggableCell.dummyCellView?.transform = CGAffineTransform.identity
                     self.draggableCell.dummyCellView?.alpha = 0.0
                     cell.alpha = 1.0
-                    print("Dummy cell is hiding with animation")
+//                    print("Dummy cell is hiding with animation")
 
                 }, completion : {
                     (finished) -> Void in
@@ -221,12 +227,24 @@ class SortImageWithLyricsViewController: UIViewController {
                         self.draggableCell.initialIndexPath = nil
                         self.draggableCell.dummyCellView?.removeFromSuperview()
                         self.draggableCell.dummyCellView = nil
-                        print("Dummy cell is hiding completed")
+//                        print("Dummy cell is hiding completed")
 
                         if let destinationPath = currentIndexPath {
                             if initialIndexPath != destinationPath{
                                 if self.imageItemsName[destinationPath.row].count > 0 {
-                                    self.sortDataSourceWith(startIndex: initialIndexPath.row, and: destinationPath.row)
+                                    self.imageItemsName  = self.sortDataFrom(array: self.imageItemsName as [Any], startIndex: initialIndexPath.row, and: destinationPath.row) as! [String]
+                                    self.dividerLineImages =  self.sortDataFrom(array: self.dividerLineImages as [Any], startIndex: initialIndexPath.row, and: destinationPath.row) as! [UIImage]
+                                    self.dividerCircleImages  = self.sortDataFrom(array: self.dividerCircleImages as [Any], startIndex: initialIndexPath.row, and: destinationPath.row) as! [UIImage]
+                                    self.containerFrameImages = self.sortDataFrom(array: self.containerFrameImages as [Any], startIndex: initialIndexPath.row, and: destinationPath.row) as! [UIImage]
+                                    self.containerFrameWithShadowImages =  self.sortDataFrom(array: self.containerFrameWithShadowImages as [Any], startIndex: initialIndexPath.row, and: destinationPath.row) as! [UIImage]
+                                    
+                                    UIView.animate(withDuration: 0.25, animations: {
+                                        () -> Void in
+                                        DispatchQueue.main.async {
+                                            self.tableView.reloadData()
+                                        }
+                                    })
+
                                 }
                             }
                         }
@@ -254,95 +272,54 @@ class SortImageWithLyricsViewController: UIViewController {
         
         return cellSnapshot
     }
-    private func reloadTableViewsWithAnimation() {
-        DispatchQueue.main.async {
-            print("reloadTableViews WithAnimation -> \(Date.init().timeIntervalSince1970) ")
-            UIView.animate(withDuration: 0.25, animations: {
-                () -> Void in
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    print("reloadTableViews WithAnimation done -> \(Date.init().timeIntervalSince1970) ")
-                }
-            })
-        }
-    }
-    private func reloadTableViewsWith(indexPath: [IndexPath]) {
-        DispatchQueue.main.async {
-            print("reloadTableViews WithAnimation -> \(Date.init().timeIntervalSince1970) ")
-            UIView.animate(withDuration: 0.25, animations: {
-                () -> Void in
-                DispatchQueue.main.async {
-                    //                    self.tableView.reloadData()
-                    self.tableView.reloadRows(at: indexPath, with: UITableViewRowAnimation.fade)
-                    print("reloadTableViews WithAnimation done -> \(Date.init().timeIntervalSince1970) ")
-                }
-            })
-        }
-    }
-    private func rearrangeData() {
-        print("rearrangeData called -> ")
-        for i in 1 ..< self.imageItemsName.count {
-            if self.imageItemsName[i].count > 0 {
-                self.imageItemsName[0] = self.imageItemsName[i]
-                self.imageItemsName[i] = ""
-                break
-            }
-        }
-    }
     
-    fileprivate func sortDataSourceWith(startIndex: Int, and destinationIndex: Int){
 
+    
+    private func sortDataFrom( array:  [Any], startIndex: Int, and destinationIndex: Int) -> [Any]{
+        
         //as dragged image is already placed correctly on position and start position image is changed with destionation
+        var dataArray = array
+        var destinationImageName = array[destinationIndex]
         
-        var destinationImageName = self.imageItemsName[destinationIndex]
-        
-        self.imageItemsName[destinationIndex] = self.imageItemsName[startIndex]
-        self.imageItemsName[startIndex] = ""
+        dataArray[destinationIndex] = dataArray[startIndex]
         
         if startIndex < destinationIndex {
             //data move from top to bottom
             var loopIterator = destinationIndex-1
-            var tempString = imageItemsName[loopIterator]
+            var tempString = array[loopIterator]
             
             while(loopIterator > startIndex) {
-                imageItemsName[loopIterator] = destinationImageName
+                dataArray[loopIterator] = destinationImageName
                 loopIterator -= 1
                 destinationImageName = tempString
-                tempString = imageItemsName[loopIterator]
+                tempString = dataArray[loopIterator]
                 print(imageItemsName)
             }
-            imageItemsName[loopIterator] = destinationImageName
+            dataArray[loopIterator] = destinationImageName
             
         } else {
             //data move from bottom to top
             var loopIterator = destinationIndex + 1
-            var tempString = imageItemsName[loopIterator]
-
+            var tempString = array[loopIterator]
+            
             while(loopIterator < startIndex) {
-                imageItemsName[loopIterator] = destinationImageName
-
+                dataArray[loopIterator] = destinationImageName
+                
                 loopIterator += 1
                 destinationImageName = tempString
-                tempString = imageItemsName[loopIterator]
+                tempString = dataArray[loopIterator]
                 print(imageItemsName)
             }
-            imageItemsName[loopIterator] = destinationImageName
-
+            dataArray[loopIterator] = destinationImageName
         }
-//        if  self.imageItemsName[0].count == 0 {
-//            self.rearrangeData()
-//        }
-        self.reloadTableViewsWithAnimation()
-        
-//        self.reloadTableViewsWith(indexPath: [IndexPath.init(row: startIndex, section: 0),
-//                                              IndexPath.init(row: destinationIndex, section: 0)])
-        
+        return dataArray
     }
     
-    private func getImageFrom(image: UIImage, and color: UIColor) -> UIImage {
+
+    
+    private func createImageFrom(image: UIImage, and color: UIColor) -> UIImage {
         let newImageFromCell = image.withRenderingMode(.alwaysTemplate)
         var newImage = newImageFromCell
-        
         UIGraphicsBeginImageContextWithOptions(image.size, false, newImage.scale)
         color.set()
         newImage.draw(in: CGRect.init(x: 0, y: 0, width: image.size.width, height: newImage.size.height))
@@ -351,18 +328,10 @@ class SortImageWithLyricsViewController: UIViewController {
         
         return newImage
     }
-    
-    fileprivate func updateColorPaletteOf(tableViewCell: TableViewCell?, with imageColors: UIImageColors) -> Void {
-        
-        if let cell = tableViewCell{
-            cell.dividerCircle.image = getImageFrom(image: cell.dividerCircle.image! , and: imageColors.primary )
-            cell.dividerLine.image = getImageFrom(image: cell.dividerLine.image!, and: imageColors.primary)
-            cell.imageContainerFrame.image = getImageFrom(image: cell.imageContainerFrame.image!, and: imageColors.primary)
-        }
-    }
 
 }
 
+//MARK: Data Source method implementation
 extension SortImageWithLyricsViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return lyricStrings.count
@@ -377,12 +346,8 @@ extension SortImageWithLyricsViewController : UITableViewDataSource {
    
         if self.imageItemsName[indexPath.row].count > 0{
             let lyricsImage = UIImage.init(named: imageItemsName[indexPath.row])
-//            DispatchQueue.global().async {
-//                self.updateColorPaletteOf(tableViewCell: cell, with: (lyricsImage?.getColors())!)
-//            }
+
             cell?.contentImageView.image = lyricsImage
-            
-            
             cell?.imageContainerFrame.image = self.containerFrameImages[indexPath.row]
             cell?.imageContainerFrameWithShadow.image = self.containerFrameWithShadowImages[indexPath.row]
             cell?.dividerCircle.image = self.dividerCircleImages[indexPath.row]
