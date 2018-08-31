@@ -127,6 +127,7 @@
                 <outlet property="dividerCircle" destination="64G-1Y-Erk" id="wj1-jE-YEj"/>
                 <outlet property="dividerLine" destination="Y8d-Xx-2mA" id="okS-65-RgF"/>
                 <outlet property="imageContainerFrame" destination="JMc-3B-yB8" id="tAb-em-Ccb"/>
+                <outlet property="imageContainerFrameWithShadow" destination="EcY-70-pfY" id="4M1-rC-qAM"/>
                 <outlet property="imageContainerView" destination="CpX-do-aeq" id="81S-EJ-Mlg"/>
                 <outlet property="lyricsTextView" destination="HiZ-Pv-PR2" id="ysR-Ek-rV1"/>
                 <outlet property="lyricsTextViewContainer" destination="5c0-Mt-iaa" id="y6v-fC-lsS"/>

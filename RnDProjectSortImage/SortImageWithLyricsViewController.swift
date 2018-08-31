@@ -5,7 +5,7 @@
 //  Created by sulayman on 17/7/18.
 //  Copyright © 2018 sulayman. All rights reserved.
 //
-
+import Foundation
 import UIKit
 
 struct ViewControllerConstants {
@@ -21,13 +21,47 @@ struct DraggableCell{
 
 class SortImageWithLyricsViewController: UIViewController {
    
-    fileprivate var imageItemsName : [String] = ["nature1","nature2","nature3","",""]
+    fileprivate var imageItemsName : [String] = ["nature1","nature2","nature4","",""]
     fileprivate var lyricStrings:[String] = ["ずっと見ないフリし てわからないフリがっ て背伸びて平気なフリしてた"
         ,"I'm goody-goody","わたしの頭をなでる大きな手も優しい眼差しも",
          "彼女のものだってわかってたわかってたよ、ずっとね","生ぬるい時間（トキ）が永遠と流れ"]
     
-//    fileprivate var dividerCircleImages:[UIImage] = []
-//    fileprivate var divid
+    lazy var dividerCircleImages:[UIImage] = {
+        var images:[UIImage] = []
+        for i in 0..<imageItemsName.count {
+            if let image = UIImage.init(named: "dividerCircle") {
+                images.append(image)
+            }
+        }
+        return images
+    }()
+    lazy var dividerLineImages:[UIImage] = {
+        var images:[UIImage] = []
+        for i in 0..<imageItemsName.count {
+            if let image = UIImage.init(named: "dividerLine") {
+                images.append(image)
+            }
+        }
+        return images
+    }()
+    lazy var containerFrameImages:[UIImage] =  {
+        var images:[UIImage] = []
+        for i in 0..<imageItemsName.count {
+            if let image = UIImage.init(named: "imageFrame") {
+                images.append(image)
+            }
+        }
+        return images
+    }()
+    lazy var containerFrameWithShadowImages:[UIImage] =  {
+        var images:[UIImage] = []
+        for i in 0..<imageItemsName.count {
+            if let image = UIImage.init(named: "imageFrameWithShadow") {
+                images.append(image)
+            }
+        }
+        return images
+    }()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -37,6 +71,33 @@ class SortImageWithLyricsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupViews()
+        self.createImagesWithPaletteColors()
+//        UIImage.ini
+    }
+    
+    
+    
+    private func createImagesWithPaletteColors() -> Void {
+        for i in 0 ..< self.imageItemsName.count {
+            if let image = UIImage.init(named: self.imageItemsName[i]) {
+                DispatchQueue.global().async {
+                    self.dividerCircleImages[i] =
+                        self.getImageFrom(image: self.dividerCircleImages[i], and: image.getColors().primary)
+                }
+                DispatchQueue.global().async {
+                    self.dividerLineImages[i] =
+                        self.getImageFrom(image: self.dividerLineImages[i], and: image.getColors().primary)
+                }
+                DispatchQueue.global().async {
+                    self.containerFrameImages[i] =
+                        self.getImageFrom(image: self.containerFrameImages[i], and: image.getColors().primary)
+                }
+                DispatchQueue.global().async {
+                    self.containerFrameWithShadowImages[i] =
+                        self.getImageFrom(image: self.containerFrameWithShadowImages[i], and: image.getColors().primary)
+                }
+            }
+        }
     }
     
     class func initFromStoryboard(with lyrics:[String]? , and imageNames:[String]?) -> SortImageWithLyricsViewController {
@@ -293,19 +354,11 @@ class SortImageWithLyricsViewController: UIViewController {
     
     fileprivate func updateColorPaletteOf(tableViewCell: TableViewCell?, with imageColors: UIImageColors) -> Void {
         
-//        var dividerCircleImage:UIImage
-//        var dividerLineImage:UIImage
-//        var imageContainerFrameImage:UIImage
-//
-        
         if let cell = tableViewCell{
             cell.dividerCircle.image = getImageFrom(image: cell.dividerCircle.image! , and: imageColors.primary )
             cell.dividerLine.image = getImageFrom(image: cell.dividerLine.image!, and: imageColors.primary)
             cell.imageContainerFrame.image = getImageFrom(image: cell.imageContainerFrame.image!, and: imageColors.primary)
         }
-        
-
-       
     }
 
 }
@@ -324,10 +377,17 @@ extension SortImageWithLyricsViewController : UITableViewDataSource {
    
         if self.imageItemsName[indexPath.row].count > 0{
             let lyricsImage = UIImage.init(named: imageItemsName[indexPath.row])
-            DispatchQueue.global().async {
-                self.updateColorPaletteOf(tableViewCell: cell, with: (lyricsImage?.getColors())!)
-            }
+//            DispatchQueue.global().async {
+//                self.updateColorPaletteOf(tableViewCell: cell, with: (lyricsImage?.getColors())!)
+//            }
             cell?.contentImageView.image = lyricsImage
+            
+            
+            cell?.imageContainerFrame.image = self.containerFrameImages[indexPath.row]
+            cell?.imageContainerFrameWithShadow.image = self.containerFrameWithShadowImages[indexPath.row]
+            cell?.dividerCircle.image = self.dividerCircleImages[indexPath.row]
+            cell?.dividerLine.image = self.dividerLineImages[indexPath.row]
+            
         } else {
             cell?.contentImageView.image = nil
             cell?.imageContainerView.isHidden = true

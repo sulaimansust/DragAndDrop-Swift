@@ -19,6 +19,7 @@ class TableViewCell: UITableViewCell {
     
     @IBOutlet weak var imageContainerView: UIView!
     
+    @IBOutlet weak var imageContainerFrameWithShadow: UIImageView!
     @IBOutlet weak var imageContainerFrame: UIImageView!
     
     @IBOutlet weak var contentImageView: UIImageView!
