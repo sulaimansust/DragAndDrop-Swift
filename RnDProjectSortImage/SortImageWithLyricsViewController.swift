@@ -24,62 +24,30 @@ class SortImageWithLyricsViewController: UIViewController {
     
     //MARK: Initial Variables Declarations + Class Functions
     
-    fileprivate var imageItemsName : [String] = ["nature1","nature2","nature4","",""]
-    fileprivate var lyricStrings:[String] = ["ずっと見ないフリし てわからないフリがっ て背伸びて平気なフリしてた"
+     fileprivate var lyricsImageModel : [LyricsImageModel] = []
+    
+     fileprivate var lyricStrings:[String] = ["ずっと見ないフリし てわからないフリがっ て背伸びて平気なフリしてた"
         ,"I'm goody-goody","わたしの頭をなでる大きな手も優しい眼差しも",
          "彼女のものだってわかってたわかってたよ、ずっとね","生ぬるい時間（トキ）が永遠と流れ"]
     
-    lazy var dividerCircleImages:[UIImage] = {
-        var images:[UIImage] = []
-        for i in 0..<imageItemsName.count {
-            if let image = UIImage.init(named: "dividerCircle") {
-                images.append(image)
-            }
-        }
-        return images
-    }()
-    lazy var dividerLineImages:[UIImage] = {
-        var images:[UIImage] = []
-        for i in 0..<imageItemsName.count {
-            if let image = UIImage.init(named: "dividerLine") {
-                images.append(image)
-            }
-        }
-        return images
-    }()
-    lazy var containerFrameImages:[UIImage] =  {
-        var images:[UIImage] = []
-        for i in 0..<imageItemsName.count {
-            if let image = UIImage.init(named: "imageFrame") {
-                images.append(image)
-            }
-        }
-        return images
-    }()
-    lazy var containerFrameWithShadowImages:[UIImage] =  {
-        var images:[UIImage] = []
-        for i in 0..<imageItemsName.count {
-            if let image = UIImage.init(named: "imageFrameWithShadow") {
-                images.append(image)
-            }
-        }
-        return images
-    }()
+
+
     lazy var draggableCell:DraggableCell = DraggableCell.init()
 
     
     @IBOutlet weak var tableView: UITableView!
     
-    class func initFromStoryboard(with lyrics:[String]? , and imageNames:[String]?) -> SortImageWithLyricsViewController {
+    class func initFromStoryboard(with lyrics:[String] , and imageNames:[String]) -> SortImageWithLyricsViewController {
         let viewController = UIStoryboard.mainStoryBoard().instantiateViewController(withIdentifier: ViewControllerConstants.kViewControllerIdentifier) as! SortImageWithLyricsViewController
         
-        if let lyricItems = lyrics {
+        if lyrics.count>0 {
             viewController.lyricStrings.removeAll()
-            viewController.lyricStrings.append(contentsOf: lyricItems)
+            viewController.lyricStrings.append(contentsOf: lyrics)
         }
-        if let imageItemNames = imageNames {
-            viewController.imageItemsName.removeAll()
-            viewController.imageItemsName.append(contentsOf: imageItemNames)
+        
+        for i in 0..<imageNames.count {
+            let modelItem = LyricsImageModel.init(imageName: imageNames.count>i ? imageNames[i] : "")
+            viewController.lyricsImageModel.append(modelItem)
         }
         
         return viewController
@@ -90,10 +58,8 @@ class SortImageWithLyricsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupViews()
-        self.createImagesWithPaletteColors()
-//        UIImage.ini
+        self.populateDataModel()
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -115,32 +81,18 @@ class SortImageWithLyricsViewController: UIViewController {
         self.tableView.addGestureRecognizer(longPressGesture)
     }
     
-    
-    private func createImagesWithPaletteColors() -> Void {
-        for i in 0 ..< self.imageItemsName.count {
-            if let image = UIImage.init(named: self.imageItemsName[i]) {
-                DispatchQueue.global().async {
-                    self.dividerCircleImages[i] =
-                        self.createImageFrom(image: self.dividerCircleImages[i], and: image.getColors().primary)
-                }
-                DispatchQueue.global().async {
-                    self.dividerLineImages[i] =
-                        self.createImageFrom(image: self.dividerLineImages[i], and: image.getColors().primary)
-                }
-                DispatchQueue.global().async {
-                    self.containerFrameImages[i] =
-                        self.createImageFrom(image: self.containerFrameImages[i], and: image.getColors().primary)
-                }
-                DispatchQueue.global().async {
-                    self.containerFrameWithShadowImages[i] =
-                        self.createImageFrom(image: self.containerFrameWithShadowImages[i], and: image.getColors().primary)
-                }
-            }
+    private func populateDataModel() {
+        let imageItemsName : [String] = ["nature1","nature2","nature4","",""]
+        let lyricStrings:[String] = ["ずっと見ないフリし てわからないフリがっ て背伸びて平気なフリしてた"
+            ,"I'm goody-goody","わたしの頭をなでる大きな手も優しい眼差しも",
+             "彼女のものだってわかってたわかってたよ、ずっとね","生ぬるい時間（トキ）が永遠と流れ"]
+        
+        for i in 0..<lyricStrings.count {
+            let modelItem = LyricsImageModel.init(imageName: imageItemsName.count>i ? imageItemsName[i] : "")
+            self.lyricsImageModel.append(modelItem)
         }
+        
     }
-    
-
-
     
     @objc fileprivate func onLongPress(gesture: UIGestureRecognizer) -> Void{
         
@@ -149,21 +101,22 @@ class SortImageWithLyricsViewController: UIViewController {
         
         let locationInView = longPress.location(in: self.tableView)
         let currentIndexPath = tableView.indexPathForRow(at: locationInView)
-//        print("current index --> \(currentIndexPath?.row ?? 100)")
+        
         switch  state {
         case .began:
-//            print(" began - currentIndexPath == \(currentIndexPath?.row ?? 100)")
             if let path = currentIndexPath {
-                
-                if self.imageItemsName[path.row].count == 0  {
+                let model = self.lyricsImageModel[path.row]
+
+                if model.imageName?.count == 0 {
                     return
                 }
+                
                 draggableCell.initialIndexPath = path
                 
                 let tableViewCell = tableView.cellForRow(at: path) as! TableViewCell
                 
                 let copyCell = self.tableView.dequeueReusableCell(withIdentifier: ViewControllerConstants.kCellIdentifier) as! TableViewCell
-                copyCell.contentImageView.image = UIImage.init(named: self.imageItemsName[path.row])
+                copyCell.contentImageView.image = UIImage.init(named: model.imageName!)
                 copyCell.imageContainerFrame.image = tableViewCell.imageContainerFrame.image
                 copyCell.dividerLine.isHidden = true
                 copyCell.dividerCircle.isHidden = true
@@ -203,7 +156,6 @@ class SortImageWithLyricsViewController: UIViewController {
             }
             
         default:
-//            print("default - currentIndex: \(currentIndexPath?.row ?? 100) initialIndex: \(draggableCell.initialIndexPath?.row ?? 100)")
 
             if let initialIndexPath = draggableCell.initialIndexPath {
                 let cell = tableView.cellForRow(at: initialIndexPath) as! TableViewCell
@@ -212,13 +164,10 @@ class SortImageWithLyricsViewController: UIViewController {
                 
                 UIView.animate(withDuration: 0.25, animations: {
                     () -> Void in
-
                     self.draggableCell.dummyCellView?.center = cell.center
                     self.draggableCell.dummyCellView?.transform = CGAffineTransform.identity
                     self.draggableCell.dummyCellView?.alpha = 0.0
                     cell.alpha = 1.0
-//                    print("Dummy cell is hiding with animation")
-
                 }, completion : {
                     (finished) -> Void in
 
@@ -227,17 +176,14 @@ class SortImageWithLyricsViewController: UIViewController {
                         self.draggableCell.initialIndexPath = nil
                         self.draggableCell.dummyCellView?.removeFromSuperview()
                         self.draggableCell.dummyCellView = nil
-//                        print("Dummy cell is hiding completed")
 
                         if let destinationPath = currentIndexPath {
                             if initialIndexPath != destinationPath{
-                                if self.imageItemsName[destinationPath.row].count > 0 {
-                                    self.imageItemsName  = self.sortDataFrom(array: self.imageItemsName as [Any], startIndex: initialIndexPath.row, and: destinationPath.row) as! [String]
-                                    self.dividerLineImages =  self.sortDataFrom(array: self.dividerLineImages as [Any], startIndex: initialIndexPath.row, and: destinationPath.row) as! [UIImage]
-                                    self.dividerCircleImages  = self.sortDataFrom(array: self.dividerCircleImages as [Any], startIndex: initialIndexPath.row, and: destinationPath.row) as! [UIImage]
-                                    self.containerFrameImages = self.sortDataFrom(array: self.containerFrameImages as [Any], startIndex: initialIndexPath.row, and: destinationPath.row) as! [UIImage]
-                                    self.containerFrameWithShadowImages =  self.sortDataFrom(array: self.containerFrameWithShadowImages as [Any], startIndex: initialIndexPath.row, and: destinationPath.row) as! [UIImage]
-                                    
+                                
+                                let model = self.lyricsImageModel[destinationPath.row]
+                                
+                                if (model.imageName ?? "").count > 0 {
+                                    self.sortDataFrom(array: &self.lyricsImageModel, startIndex: initialIndexPath.row, and: destinationPath.row)
                                     UIView.animate(withDuration: 0.25, animations: {
                                         () -> Void in
                                         DispatchQueue.main.async {
@@ -275,44 +221,41 @@ class SortImageWithLyricsViewController: UIViewController {
     
 
     
-    private func sortDataFrom( array:  [Any], startIndex: Int, and destinationIndex: Int) -> [Any]{
+    private func sortDataFrom( array: inout [LyricsImageModel], startIndex: Int, and destinationIndex: Int) /*-> [Any] */{
         
         //as dragged image is already placed correctly on position and start position image is changed with destionation
-        var dataArray = array
-        var destinationImageName = array[destinationIndex]
+//        var dataArray = array
+        var destinationDataModel = array[destinationIndex]
         
-        dataArray[destinationIndex] = dataArray[startIndex]
+        array[destinationIndex] = array[startIndex]
         
         if startIndex < destinationIndex {
             //data move from top to bottom
             var loopIterator = destinationIndex-1
-            var tempString = array[loopIterator]
+            var tempDataModel = array[loopIterator]
             
             while(loopIterator > startIndex) {
-                dataArray[loopIterator] = destinationImageName
+                array[loopIterator] = destinationDataModel
                 loopIterator -= 1
-                destinationImageName = tempString
-                tempString = dataArray[loopIterator]
-                print(imageItemsName)
+                destinationDataModel = tempDataModel
+                tempDataModel = array[loopIterator]
             }
-            dataArray[loopIterator] = destinationImageName
+            array[loopIterator] = destinationDataModel
             
         } else {
             //data move from bottom to top
             var loopIterator = destinationIndex + 1
-            var tempString = array[loopIterator]
+            var tempDataModel = array[loopIterator]
             
             while(loopIterator < startIndex) {
-                dataArray[loopIterator] = destinationImageName
+                array[loopIterator] = destinationDataModel
                 
                 loopIterator += 1
-                destinationImageName = tempString
-                tempString = dataArray[loopIterator]
-                print(imageItemsName)
+                destinationDataModel = tempDataModel
+                tempDataModel = array[loopIterator]
             }
-            dataArray[loopIterator] = destinationImageName
+            array[loopIterator] = destinationDataModel
         }
-        return dataArray
     }
     
 
@@ -329,6 +272,7 @@ class SortImageWithLyricsViewController: UIViewController {
         return newImage
     }
 
+    
 }
 
 //MARK: Data Source method implementation
@@ -344,29 +288,22 @@ extension SortImageWithLyricsViewController : UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ViewControllerConstants.kCellIdentifier, for: indexPath) as? TableViewCell
    
-        if self.imageItemsName[indexPath.row].count > 0{
-            let lyricsImage = UIImage.init(named: imageItemsName[indexPath.row])
-
-            cell?.contentImageView.image = lyricsImage
-            cell?.imageContainerFrame.image = self.containerFrameImages[indexPath.row]
-            cell?.imageContainerFrameWithShadow.image = self.containerFrameWithShadowImages[indexPath.row]
-            cell?.dividerCircle.image = self.dividerCircleImages[indexPath.row]
-            cell?.dividerLine.image = self.dividerLineImages[indexPath.row]
-            
-        } else {
-            cell?.contentImageView.image = nil
+        let model = self.lyricsImageModel[indexPath.row]
+        
+      
+        if model.image != nil {
+            cell?.contentImageView.image = model.image
+            cell?.imageContainerFrame.tintColor = model.tintcolor
+            cell?.dividerLine.tintColor = model.tintcolor
+            cell?.dividerCircle.tintColor = model.tintcolor
+        } else  {
             cell?.imageContainerView.isHidden = true
         }
         
         cell?.lyricsTextView.text = self.lyricStrings[indexPath.row]
         cell?.lyricsTextView.textContainer.maximumNumberOfLines = 4
         
-        cell?.contentImageView.isHidden = false
-        
-        if cell != nil {
-            return cell!
-        }
-        return UITableViewCell.init()
+        return cell!
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

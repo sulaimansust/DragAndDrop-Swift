@@ -42,6 +42,7 @@
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dividerCircle" translatesAutoresizingMaskIntoConstraints="NO" id="64G-1Y-Erk">
                         <rect key="frame" x="177" y="2" width="21" height="21"/>
+                        <color key="tintColor" red="0.99607843139999996" green="0.3803921569" blue="0.63921568630000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="21" id="2Ol-4S-1HI"/>
                             <constraint firstAttribute="height" constant="21" id="RBw-Ba-gr5"/>
@@ -49,6 +50,7 @@
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dividerLine" translatesAutoresizingMaskIntoConstraints="NO" id="Y8d-Xx-2mA">
                         <rect key="frame" x="187" y="27" width="1" height="69.5"/>
+                        <color key="tintColor" red="0.99607843137254903" green="0.38039215686274508" blue="0.63921568627450975" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="1" id="z3D-Bi-cZA"/>
                         </constraints>
@@ -61,8 +63,9 @@
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageFrame" translatesAutoresizingMaskIntoConstraints="NO" id="JMc-3B-yB8">
                                 <rect key="frame" x="2" y="6" width="149" height="84"/>
+                                <color key="tintColor" red="0.99607843139999996" green="0.3803921569" blue="0.63921568630000003" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image1" translatesAutoresizingMaskIntoConstraints="NO" id="30j-JU-eNP">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="30j-JU-eNP">
                                 <rect key="frame" x="29" y="18" width="60" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -139,7 +142,6 @@
         <image name="badgeCircle" width="24" height="24"/>
         <image name="dividerCircle" width="21" height="21"/>
         <image name="dividerLine" width="1" height="78"/>
-        <image name="image1" width="220" height="233"/>
         <image name="imageFrame" width="149" height="84"/>
         <image name="imageFrameWithShadow" width="153" height="88"/>
     </resources>
