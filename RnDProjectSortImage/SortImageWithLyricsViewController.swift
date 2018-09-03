@@ -117,7 +117,7 @@ class SortImageWithLyricsViewController: UIViewController {
                 
                 let copyCell = self.tableView.dequeueReusableCell(withIdentifier: ViewControllerConstants.kCellIdentifier) as! TableViewCell
                 copyCell.contentImageView.image = UIImage.init(named: model.imageName!)
-                copyCell.imageContainerFrame.image = tableViewCell.imageContainerFrame.image
+                copyCell.imageContainerFrame.tintColor = model.tintcolor
                 copyCell.dividerLine.isHidden = true
                 copyCell.dividerCircle.isHidden = true
                 copyCell.lyricsTextViewContainer.isHidden = true
